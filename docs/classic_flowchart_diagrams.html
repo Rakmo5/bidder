@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classic System Design Flowcharts - SIH26100</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    .flow-canvas {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .flow-box {
+      background-color: #ffffff;
+      border: 2px solid #334155;
+      border-radius: 8px;
+      padding: 10px 14px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .flow-doc {
+      background-color: #eff6ff;
+      border: 2px solid #2563eb;
+      border-radius: 6px;
+      padding: 8px 12px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e40af;
+    }
+    .flow-diamond {
+      width: 140px;
+      height: 140px;
+      background-color: #fffbeb;
+      border: 2px solid #d97706;
+      transform: rotate(45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+    .diamond-text {
+      transform: rotate(-45deg);
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400e;
+      line-height: 1.25;
+      padding: 6px;
+    }
+    .flow-cylinder {
+      background-color: #f8fafc;
+      border: 2px solid #475569;
+      border-radius: 20px / 10px;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+    }
+    .arrow-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .badge-yes {
+      background-color: #dcfce7;
+      color: #166534;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #86efac;
+    }
+    .badge-no {
+      background-color: #fee2e2;
+      color: #991b1b;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #fca5a5;
+    }
+  </style>
+</head>
+<body class="p-8 max-w-6xl mx-auto">
+
+  <!-- Header Banner -->
+  <div class="bg-white border border-slate-300 rounded-xl p-6 mb-8 flex justify-between items-center shadow-sm">
+    <div>
+      <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2.5 py-1 rounded">
+        Standard Engineering Flowcharts
+      </span>
+      <h1 class="text-2xl font-black text-slate-900 mt-2">SIH26100: Classic System Design Flowcharts</h1>
+      <p class="text-slate-600 text-sm mt-1">Clean, standard technical flowcharts with decision gates, process blocks, and databases for PPT slides.</p>
+    </div>
+    <div class="text-right">
+      <span class="text-xs font-semibold text-slate-500 block">Screenshot Instruction:</span>
+      <span class="text-xs text-blue-800 font-bold bg-blue-50 border border-blue-200 px-3 py-1.5 rounded inline-block mt-1">
+        Press Win + Shift + S to snip directly into PPT
+      </span>
+    </div>
+  </div>
+
+  <!-- FLOWCHART 1: END-TO-END PIPELINE (WITH DECISION DIAMONDS) -->
+  <section class="mb-12">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+        <span class="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+        End-to-End Autonomous Scrutiny Pipeline (Standard Logic Flowchart)
+      </h2>
+      <span class="text-xs font-mono text-slate-500 bg-white border border-slate-300 px-2 py-0.5 rounded">For Slide 5A / 5B</span>
+    </div>
+
+    <div class="flow-canvas p-8">
+      
+      <!-- Stage 1: Ingestion -->
+      <div class="grid grid-cols-2 gap-8 mb-6">
+        <!-- Left: Tender -->
+        <div class="flex flex-col items-center">
+          <div class="flow-doc w-64">
+            📄 INPUT: MoPNG Tender RFP (PDF)
+            <div class="text-[10px] font-normal text-blue-800">GCC, SCC, Tech Specs, BoQ (300-800 pgs)</div>
+          </div>
+          <div class="arrow-line my-2">&darr;</div>
+          <div class="flow-box w-64 border-blue-600 bg-blue-50/50">
+            Layout Parser & OCR
+            <div class="text-[11px] font-normal text-slate-600">PyMuPDF / Text Chunking</div>
+          </div>
+          <div class="arrow-line my-2">&darr;</div>
+          <div class="flow-box w-64 border-blue-600">
+            Rule Extraction Engine
+            <div class="text-[11px] font-normal text-slate-600">LLM (Groq / Gemini) + Pydantic</div>
+          </div>
+          <div class="arrow-line my-2">&darr;</div>
+          <div class="flow-cylinder w-64">
+            🛢️ (DB) Tender Requirement Matrix
+            <div class="text-[10px] font-normal text-slate-500">6 Criteria, Thresholds & QCBS Weights</div>
+          </div>
+        </div>
+
+        <!-- Right: Bidders -->
+        <div class="flex flex-col items-center">
+          <div class="flow-doc w-64 border-purple-600 bg-purple-50 text-purple-900">
+            📁 INPUT: N Bidder Packages (PDFs)
+            <div class="text-[10px] font-normal text-purple-800">Balance Sheets, CA UDIN, ISO, Plant (1,500+ pgs)</div>
+          </div>
+          <div class="arrow-line my-2">&darr;</div>
+          <div class="flow-box w-64 border-purple-600 bg-purple-50/50">
+            Document Ingestion & Parser
+            <div class="text-[11px] font-normal text-slate-600">Extracts Claims & Low-level Metadata</div>
+          </div>
+          <div class="arrow-line my-2">&darr;</div>
+          <div class="grid grid-cols-2 gap-3 w-72">
+            <div class="flow-box text-[11px] border-amber-600 bg-amber-50/30">
+              Trailer Metadata
+              <div class="text-[9px] font-normal text-slate-500">/Author, /Time, SHA256</div>
+            </div>
+            <div class="flow-box text-[11px] border-emerald-600 bg-emerald-50/30">
+              Submitted Claims
+              <div class="text-[9px] font-normal text-slate-500">Turnover, Exp, ISO</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-300 my-6"></div>
+
+      <!-- Stage 2: Cross-Audit & Decision Gates -->
+      <div class="grid grid-cols-2 gap-8 mb-8">
+        
+        <!-- Gate 1: Forensics / Cartel Diamond -->
+        <div class="flex flex-col items-center">
+          <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Gate 1: Digital Forensics & Cartel Audit</div>
+          <div class="flow-diamond">
+            <div class="diamond-text">
+              Identical Metadata, Time, or Duplicate UDIN?
+            </div>
+          </div>
+          
+          <div class="w-full flex justify-between px-6 mt-3">
+            <!-- YES path -->
+            <div class="flex flex-col items-center">
+              <span class="badge-no mb-1">YES [Collusion]</span>
+              <div class="arrow-line">&darr;</div>
+              <div class="flow-box w-48 border-red-600 bg-red-50 text-red-900 text-xs">
+                🚨 CRITICAL CARTEL ALERT
+                <div class="text-[10px] font-normal text-red-700">Flag to CVC & Competition Commission</div>
+              </div>
+            </div>
+
+            <!-- NO path -->
+            <div class="flex flex-col items-center">
+              <span class="badge-yes mb-1">NO [Authentic]</span>
+              <div class="arrow-line">&darr;</div>
+              <div class="flow-box w-44 border-emerald-600 bg-emerald-50 text-emerald-900 text-xs">
+                Digital Footprint Cleared
+                <div class="text-[10px] font-normal text-emerald-700">Independent Submissions</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gate 2: Compliance & Hard Gates Diamond -->
+        <div class="flex flex-col items-center">
+          <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Gate 2: Eligibility & Technical Audit</div>
+          <div class="flow-diamond border-blue-600 bg-blue-50/50">
+            <div class="diamond-text text-blue-900">
+              All Mandatory Eligibility Gates Cleared?
+            </div>
+          </div>
+
+          <div class="w-full flex justify-between px-6 mt-3">
+            <!-- NO path -->
+            <div class="flex flex-col items-center">
+              <span class="badge-no mb-1">NO [Deficit]</span>
+              <div class="arrow-line">&darr;</div>
+              <div class="flow-box w-48 border-red-600 bg-red-50 text-red-900 text-xs">
+                🔴 REJECTED (Hard Gate)
+                <div class="text-[10px] font-normal text-red-700">Disqualified with Clause Citation</div>
+              </div>
+            </div>
+
+            <!-- YES path -->
+            <div class="flex flex-col items-center">
+              <span class="badge-yes mb-1">YES [Qualified]</span>
+              <div class="arrow-line">&darr;</div>
+              <div class="flow-box w-48 border-emerald-600 bg-emerald-50 text-emerald-900 text-xs">
+                🟢 QUALIFIED
+                <div class="text-[10px] font-normal text-emerald-700">Calculate Tech Score Ts (0-100)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="border-t border-slate-300 my-6"></div>
+
+      <!-- Stage 3: Financial & QCBS Scoring Gate -->
+      <div class="flex flex-col items-center">
+        <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Gate 3: Rate Viability & ALT Detection</div>
+        
+        <div class="flow-diamond border-amber-600 bg-amber-50">
+          <div class="diamond-text text-amber-900">
+            Quoted Price <br>&lt; 80% of Estimate? (ALT)
+          </div>
+        </div>
+
+        <div class="w-full max-w-xl flex justify-between mt-3 mb-6">
+          <!-- YES path -->
+          <div class="flex flex-col items-center">
+            <span class="badge-no mb-1">YES [Predatory Bid]</span>
+            <div class="arrow-line">&darr;</div>
+            <div class="flow-box w-56 border-amber-600 bg-amber-50 text-amber-900 text-xs">
+              ⚠️ ALT Warning Triggered
+              <div class="text-[10px] font-normal text-amber-800">Add 5-Year Life-Cycle Failure Risk Surcharge</div>
+            </div>
+          </div>
+
+          <!-- NO path -->
+          <div class="flex flex-col items-center">
+            <span class="badge-yes mb-1">NO [Viable Engineering Rate]</span>
+            <div class="arrow-line">&darr;</div>
+            <div class="flow-box w-56 border-emerald-600 bg-emerald-50 text-emerald-900 text-xs">
+              Rate Viable & Acceptable
+              <div class="text-[10px] font-normal text-emerald-800">Standard Life-Cycle Profile</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Convergence into Final Formula -->
+        <div class="arrow-line">&darr;</div>
+        
+        <div class="flow-box max-w-lg w-full border-2 border-slate-900 bg-slate-100 p-4">
+          <div class="text-xs uppercase tracking-wider font-bold text-slate-700">Final QCBS Composite Formula (GFR Rule 192)</div>
+          <div class="font-mono text-sm text-blue-800 font-black mt-1">
+            Score S = (Ts &times; 0.70) + (Fs &times; 0.30)
+          </div>
+          <div class="text-[11px] text-slate-600 mt-1">
+            Normalized Financial Score: Fs = (Fmin / F) &times; 100
+          </div>
+        </div>
+
+        <div class="arrow-line my-2">&darr;</div>
+
+        <!-- Output Document -->
+        <div class="flow-doc w-80 border-emerald-700 bg-emerald-50 text-emerald-950 p-3">
+          📋 FINAL OUTPUT: Signed TEC Scrutiny Note
+          <div class="text-[11px] font-normal text-emerald-800 mt-1">
+            • Ranked Leaderboard (Rank 1 Recommended Winner)<br>
+            • Clause-by-Clause Grounded Proof Matrix<br>
+            • CVC Anti-Cartel & ALT Risk Audit Trail
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FLOWCHART 2: TRADITIONAL SYSTEM ARCHITECTURE (BLOCK DIAGRAM) -->
+  <section>
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+        <span class="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+        Modular System Architecture (Classic Block Diagram)
+      </h2>
+      <span class="text-xs font-mono text-slate-500 bg-white border border-slate-300 px-2 py-0.5 rounded">For Slide 5A</span>
+    </div>
+
+    <div class="flow-canvas p-8">
+      
+      <div class="flex flex-col gap-6">
+
+        <!-- Layer 1 -->
+        <div class="border-2 border-slate-400 rounded-lg p-4 bg-slate-50">
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Layer 1: User Presentation (Client Tier)</div>
+          <div class="grid grid-cols-4 gap-3 text-center">
+            <div class="bg-white border border-slate-300 p-2.5 rounded font-semibold text-xs text-slate-800">Tender Uploader & Rule Viewer</div>
+            <div class="bg-white border border-slate-300 p-2.5 rounded font-semibold text-xs text-slate-800">Bidder Dossier Manager</div>
+            <div class="bg-white border border-slate-300 p-2.5 rounded font-semibold text-xs text-slate-800">Compliance & Proof Modal</div>
+            <div class="bg-white border border-slate-300 p-2.5 rounded font-semibold text-xs text-slate-800">QCBS Leaderboard & Export</div>
+          </div>
+        </div>
+
+        <div class="flex justify-center text-slate-500 font-bold text-lg">&uarr;&darr; HTTPS / RESTful API (JSON)</div>
+
+        <!-- Layer 2 -->
+        <div class="border-2 border-blue-500 rounded-lg p-4 bg-blue-50/30">
+          <div class="text-xs font-bold uppercase tracking-wider text-blue-800 mb-2">Layer 2: API Gateway & Orchestration (FastAPI)</div>
+          <div class="grid grid-cols-4 gap-3 text-center font-mono text-xs">
+            <div class="bg-white border border-blue-300 p-2 rounded font-bold text-blue-900">/api/v1/tenders</div>
+            <div class="bg-white border border-blue-300 p-2 rounded font-bold text-blue-900">/api/v1/bidders</div>
+            <div class="bg-white border border-blue-300 p-2 rounded font-bold text-blue-900">/api/v1/evaluate</div>
+            <div class="bg-white border border-blue-300 p-2 rounded font-bold text-blue-900">/api/v1/reports</div>
+          </div>
+        </div>
+
+        <div class="flex justify-center text-slate-500 font-bold text-lg">&uarr;&darr; Internal Service Bus</div>
+
+        <!-- Layer 3 -->
+        <div class="border-2 border-emerald-600 rounded-lg p-4 bg-emerald-50/30">
+          <div class="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-2">Layer 3: Core Intelligence Microservices</div>
+          <div class="grid grid-cols-5 gap-2 text-center text-xs">
+            <div class="bg-white border border-emerald-300 p-2.5 rounded">
+              <span class="font-bold text-slate-900 block">Parser Svc</span>
+              <span class="text-[10px] text-slate-500">PyMuPDF / Text OCR</span>
+            </div>
+            <div class="bg-white border border-emerald-300 p-2.5 rounded">
+              <span class="font-bold text-slate-900 block">Requirement Svc</span>
+              <span class="text-[10px] text-slate-500">Pydantic Schemas</span>
+            </div>
+            <div class="bg-white border border-red-300 p-2.5 rounded bg-red-50/40">
+              <span class="font-bold text-red-900 block">Forensics Svc</span>
+              <span class="text-[10px] text-red-600">Cartel & UDIN Audit</span>
+            </div>
+            <div class="bg-white border border-emerald-300 p-2.5 rounded">
+              <span class="font-bold text-slate-900 block">Compliance Svc</span>
+              <span class="text-[10px] text-slate-500">Hybrid Matcher</span>
+            </div>
+            <div class="bg-white border border-amber-300 p-2.5 rounded bg-amber-50/40">
+              <span class="font-bold text-amber-900 block">Scoring Svc</span>
+              <span class="text-[10px] text-amber-700">QCBS & ALT Engine</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center text-slate-500 font-bold text-lg">&uarr;&darr; Inference & Embeddings Calls</div>
+
+        <!-- Layer 4 -->
+        <div class="border-2 border-purple-600 rounded-lg p-4 bg-purple-50/30">
+          <div class="text-xs font-bold uppercase tracking-wider text-purple-800 mb-2">Layer 4: Sovereign AI & Storage Layer</div>
+          <div class="grid grid-cols-3 gap-3 text-center text-xs">
+            <div class="bg-white border border-purple-300 p-2.5 rounded">
+              <span class="font-bold text-purple-900 block">Groq Llama-3.3-70B</span>
+              <span class="text-[10px] text-slate-500">Sub-second JSON Extraction</span>
+            </div>
+            <div class="bg-white border border-purple-300 p-2.5 rounded">
+              <span class="font-bold text-purple-900 block">Google Gemini 1.5 Flash</span>
+              <span class="text-[10px] text-slate-500">Multimodal Fallback & Legal Reasoning</span>
+            </div>
+            <div class="bg-white border border-purple-300 p-2.5 rounded">
+              <span class="font-bold text-purple-900 block">Dense Vector + BM25</span>
+              <span class="text-[10px] text-slate-500">Hybrid Keyword & Clause Index</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

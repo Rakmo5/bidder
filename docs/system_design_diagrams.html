@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIH26100 - System Architecture Diagrams for Presentation</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b1120;
+      color: #f8fafc;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glow-blue {
+      box-shadow: 0 0 25px -5px rgba(59, 130, 246, 0.3);
+    }
+    .glow-emerald {
+      box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+    }
+    .glow-rose {
+      box-shadow: 0 0 25px -5px rgba(244, 63, 94, 0.3);
+    }
+    .glow-amber {
+      box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.3);
+    }
+  </style>
+</head>
+<body class="p-8 max-w-7xl mx-auto">
+
+  <!-- Header Banner -->
+  <div class="border-b border-slate-800 pb-6 mb-10 flex items-center justify-between">
+    <div>
+      <div class="flex items-center gap-3">
+        <span class="bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          SIH26100 Presentation Asset
+        </span>
+        <span class="text-slate-400 text-xs font-semibold">Ministry of Petroleum & Natural Gas (MoPNG)</span>
+      </div>
+      <h1 class="text-3xl font-extrabold text-white mt-2 tracking-tight">System Architecture & Engineering Diagrams</h1>
+      <p class="text-slate-400 text-sm mt-1">High-Resolution visual blueprints ready for presentation slide screenshots.</p>
+    </div>
+    <div class="text-right">
+      <span class="text-xs text-slate-500 block">Screenshot Tip:</span>
+      <span class="text-xs text-blue-400 font-semibold bg-blue-950/60 border border-blue-800/50 px-3 py-1.5 rounded-lg inline-block">
+        Press Win + Shift + S to snip directly into PPT
+      </span>
+    </div>
+  </div>
+
+  <!-- DIAGRAM 1: HIGH-LEVEL DESIGN (HLD) -->
+  <section class="mb-16">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <span class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">D1</span>
+        <h2 class="text-xl font-bold text-white">High-Level Design (HLD): 4-Tier Decoupled System Architecture</h2>
+      </div>
+      <span class="text-xs font-mono text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">Slide 5A Ready</span>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 glow-blue">
+      
+      <!-- Tier 1: Client Layer -->
+      <div class="bg-slate-950/80 border border-blue-500/40 rounded-xl p-5 mb-6 relative">
+        <div class="absolute -top-3 left-6 bg-blue-600 text-white text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
+          Tier 1: Presentation & Government User Interface
+        </div>
+        <div class="grid grid-cols-4 gap-4 mt-2">
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-blue-400 font-bold text-sm">3-Step Scrutiny Wizard</div>
+            <div class="text-slate-400 text-xs mt-1">Tender Ingestion &rarr; Bidders &rarr; Live AI Audit</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-emerald-400 font-bold text-sm">Traffic-Light Compliance Grid</div>
+            <div class="text-slate-400 text-xs mt-1">Instant Pass/Fail Eligibility Visibility</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-purple-400 font-bold text-sm">Dual-Pane Evidence Auditor</div>
+            <div class="text-slate-400 text-xs mt-1">Tender Clause vs Bidder Excerpt Grounding</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-amber-400 font-bold text-sm">1-Click Official TEC Exporter</div>
+            <div class="text-slate-400 text-xs mt-1">CVC-Compliant Scrutiny Notes (.txt / PDF)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connector Arrow -->
+      <div class="flex justify-center my-3">
+        <div class="flex items-center gap-2 text-xs font-mono text-blue-400 bg-blue-950/60 border border-blue-800 px-4 py-1 rounded-full">
+          <span>&darr;</span> Secure RESTful API Gateway (JSON / Form-Data) <span>&darr;</span>
+        </div>
+      </div>
+
+      <!-- Tier 2: API Gateway Layer -->
+      <div class="bg-slate-950/80 border border-indigo-500/40 rounded-xl p-5 mb-6 relative">
+        <div class="absolute -top-3 left-6 bg-indigo-600 text-white text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
+          Tier 2: API Gateway & Controller Layer (FastAPI)
+        </div>
+        <div class="grid grid-cols-4 gap-4 mt-2">
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center font-mono text-xs">
+            <span class="text-emerald-400 font-bold">/tenders</span>
+            <span class="text-slate-400 block mt-1">Upload & Requirement Schema</span>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center font-mono text-xs">
+            <span class="text-emerald-400 font-bold">/bidders</span>
+            <span class="text-slate-400 block mt-1">Dossier Registry & Metadata</span>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center font-mono text-xs">
+            <span class="text-amber-400 font-bold">/evaluate/run</span>
+            <span class="text-slate-400 block mt-1">Forensics + Compliance + QCBS</span>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg text-center font-mono text-xs">
+            <span class="text-purple-400 font-bold">/reports/export</span>
+            <span class="text-slate-400 block mt-1">Official Committee Sign-off</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connector Arrow -->
+      <div class="flex justify-center my-3">
+        <div class="flex items-center gap-2 text-xs font-mono text-indigo-400 bg-indigo-950/60 border border-indigo-800 px-4 py-1 rounded-full">
+          <span>&darr;</span> High-Throughput Service Orchestrator <span>&darr;</span>
+        </div>
+      </div>
+
+      <!-- Tier 3: Core Intelligence Micro-Services -->
+      <div class="bg-slate-950/80 border border-emerald-500/40 rounded-xl p-5 mb-6 relative">
+        <div class="absolute -top-3 left-6 bg-emerald-600 text-white text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
+          Tier 3: Core Intelligence & Forensics Microservices
+        </div>
+        <div class="grid grid-cols-5 gap-3 mt-2">
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-emerald-400 font-bold text-xs uppercase">Document Parser</div>
+            <p class="text-slate-400 text-[11px] mt-1">PyMuPDF Text & Metadata Extractor</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-emerald-400 font-bold text-xs uppercase">Requirement Engine</div>
+            <p class="text-slate-400 text-[11px] mt-1">Pydantic Mandatory Gates & BoQ</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-rose-400 font-bold text-xs uppercase">Forensics Engine</div>
+            <p class="text-slate-400 text-[11px] mt-1">Cartel Detection & CA UDIN Audit</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-blue-400 font-bold text-xs uppercase">Compliance Engine</div>
+            <p class="text-slate-400 text-[11px] mt-1">Clause-to-Evidence Matcher</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg text-center">
+            <div class="text-amber-400 font-bold text-xs uppercase">Scoring & QCBS</div>
+            <p class="text-slate-400 text-[11px] mt-1">GFR 192 & ALT Risk Modifier</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connector Arrow -->
+      <div class="flex justify-center my-3">
+        <div class="flex items-center gap-2 text-xs font-mono text-purple-400 bg-purple-950/60 border border-purple-800 px-4 py-1 rounded-full">
+          <span>&darr;</span> Hybrid AI Inference & Retrieval Pipeline <span>&darr;</span>
+        </div>
+      </div>
+
+      <!-- Tier 4: LLM & Hybrid Knowledge Base -->
+      <div class="bg-slate-950/80 border border-purple-500/40 rounded-xl p-5 relative">
+        <div class="absolute -top-3 left-6 bg-purple-600 text-white text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
+          Tier 4: Sovereign AI Inference & Vector Knowledge Base
+        </div>
+        <div class="grid grid-cols-3 gap-4 mt-2">
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg">
+            <div class="text-purple-400 font-bold text-xs">Groq Llama-3.3-70B (High-Speed Inference)</div>
+            <p class="text-slate-400 text-xs mt-1">Sub-second structured extraction with deterministic JSON mode.</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg">
+            <div class="text-purple-400 font-bold text-xs">Google Gemini 1.5 Flash (Multimodal & Fallback)</div>
+            <p class="text-slate-400 text-xs mt-1">Deep legal clause reasoning and complex multi-page document context.</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-lg">
+            <div class="text-purple-400 font-bold text-xs">Hybrid Search: Dense Vector + BM25 Keywords</div>
+            <p class="text-slate-400 text-xs mt-1">Ensures 100% precision on exact numerical thresholds and clause citations.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DIAGRAM 2: LOW-LEVEL DESIGN (LLD) & PIPELINE FLOW -->
+  <section class="mb-16">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <span class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-sm">D2</span>
+        <h2 class="text-xl font-bold text-white">Low-Level Design (LLD): End-to-End Data Processing Pipeline</h2>
+      </div>
+      <span class="text-xs font-mono text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">Slide 5B Ready</span>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 glow-emerald">
+      <div class="flex flex-col gap-5">
+        
+        <!-- Step 1 -->
+        <div class="flex items-center gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm shrink-0 border border-blue-500/30">
+            01
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between">
+              <span class="text-sm font-bold text-white">Tender Ingestion & Rule Decomposition</span>
+              <span class="text-xs font-mono text-blue-400">PDF &rarr; Layout Text &rarr; JSON</span>
+            </div>
+            <p class="text-slate-400 text-xs mt-1">
+              PyMuPDF chunks text page-by-page. LLM parses General Conditions (GCC) and Special Conditions (SCC), strictly applying <span class="text-emerald-400 font-semibold">SCC &gt; GCC hierarchy</span> into Pydantic <code class="text-blue-300 font-mono text-[11px]">TenderRequirement</code> models.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flex items-center gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-sm shrink-0 border border-indigo-500/30">
+            02
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between">
+              <span class="text-sm font-bold text-white">Bidder Dossier Extraction & Forensic Fingerprinting</span>
+              <span class="text-xs font-mono text-indigo-400">Metadata & Trailer Parsing</span>
+            </div>
+            <p class="text-slate-400 text-xs mt-1">
+              Extracts audited turnover, years experience, ISO validity, and plant equipment. Concurrently extracts low-level PDF dictionary metadata: <span class="text-indigo-300 font-mono text-[11px]">/Author</span>, <span class="text-indigo-300 font-mono text-[11px]">/Producer</span>, creation timestamp, and document SHA256 hashes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flex items-center gap-4 bg-slate-950 p-4 rounded-xl border border-rose-950/60 bg-rose-950/10">
+          <div class="w-10 h-10 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm shrink-0 border border-rose-500/30">
+            03
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between">
+              <span class="text-sm font-bold text-white">Anti-Cartelization & Collusion Forensic Audit</span>
+              <span class="text-xs font-mono text-rose-400">Competition Act Sec 3</span>
+            </div>
+            <p class="text-slate-400 text-xs mt-1">
+              Cross-examines all competing bidders for identical author machines, timestamp proximity (&lt; 30 mins), and validates the 18-digit Chartered Accountant UDIN format. Discovers duplicate UDINs and flags immediate <span class="text-rose-400 font-bold">Cartel Collusion Alerts</span>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="flex items-center gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0 border border-emerald-500/30">
+            04
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between">
+              <span class="text-sm font-bold text-white">Hybrid RAG Grounding & Compliance Scoring</span>
+              <span class="text-xs font-mono text-emerald-400">Clause-by-Clause Verification</span>
+            </div>
+            <p class="text-slate-400 text-xs mt-1">
+              Matches every tender requirement against bidder evidence. Verifies thresholds (e.g. &ge; ₹15 Cr turnover, &ge; 5 yrs exp, active ISO 45001). Extracts direct quotes with exact page numbers and generates a Technical Score (<span class="text-emerald-300 font-mono text-[11px]">Ts: 0-100</span>).
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="flex items-center gap-4 bg-slate-950 p-4 rounded-xl border border-amber-950/60 bg-amber-950/10">
+          <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm shrink-0 border border-amber-500/30">
+            05
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between">
+              <span class="text-sm font-bold text-white">QCBS Scoring & Abnormally Low Tender (ALT) Risk Analysis</span>
+              <span class="text-xs font-mono text-amber-400">GFR Rule 192 (70:30)</span>
+            </div>
+            <p class="text-slate-400 text-xs mt-1">
+              Computes normalized financial score <span class="text-amber-300 font-mono text-[11px]">Fs = (Fmin/F) * 100</span> and composite score <span class="text-amber-300 font-mono text-[11px]">S = (Ts * 0.70) + (Fs * 0.30)</span>. If a quote is &gt; 20% below estimate, triggers <span class="text-amber-400 font-semibold">ALT Warning</span> and calculates a 5-year Life-Cycle Failure Risk Penalty.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGRAM 3: DIGITAL FORENSICS CARTEL NETWORK GRAPH -->
+  <section>
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <span class="w-8 h-8 rounded-lg bg-rose-600 flex items-center justify-center text-white font-bold text-sm">D3</span>
+        <h2 class="text-xl font-bold text-white">Forensic Detection: Bid-Rigging & Cartel Collusion Network Graph</h2>
+      </div>
+      <span class="text-xs font-mono text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">Slide 6/7 Demo Asset</span>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 glow-rose">
+      <div class="grid grid-cols-3 gap-6 items-center">
+        
+        <!-- Bidder 2 Node -->
+        <div class="bg-slate-950 border border-rose-500/40 rounded-xl p-5 text-center">
+          <span class="text-xs font-bold uppercase tracking-wider text-rose-400 bg-rose-950/60 px-2.5 py-1 rounded-full border border-rose-800">
+            Supposed Competitor A
+          </span>
+          <h3 class="text-lg font-bold text-white mt-3">Apex InfraTech Ltd</h3>
+          <p class="text-slate-400 text-xs mt-1">Quoted: ₹28.50 Cr</p>
+          <div class="mt-3 text-left bg-slate-900 p-2.5 rounded border border-slate-800 text-[11px] font-mono text-slate-300">
+            <div>Turnover: ₹11.2 Cr <span class="text-rose-400">(Deficit)</span></div>
+            <div>ISO 45001: <span class="text-rose-400">Expired 2022</span></div>
+          </div>
+        </div>
+
+        <!-- Central Collusion Artifacts -->
+        <div class="flex flex-col gap-3">
+          <div class="bg-rose-950/40 border border-rose-500/60 rounded-xl p-3.5 text-center">
+            <div class="text-rose-400 font-bold text-xs uppercase tracking-wider">Identical Machine Workstation</div>
+            <div class="font-mono text-[11px] text-white mt-1 bg-slate-950 px-2 py-1 rounded border border-rose-900">
+              Author: "Apex-Workstation-04"
+            </div>
+          </div>
+
+          <div class="bg-rose-950/40 border border-rose-500/60 rounded-xl p-3.5 text-center">
+            <div class="text-rose-400 font-bold text-xs uppercase tracking-wider">Identical Export Timestamp</div>
+            <div class="font-mono text-[11px] text-white mt-1 bg-slate-950 px-2 py-1 rounded border border-rose-900">
+              2024-09-03T16:22:10Z (Exact Second)
+            </div>
+          </div>
+
+          <div class="bg-rose-950/40 border border-rose-500/60 rounded-xl p-3.5 text-center">
+            <div class="text-rose-400 font-bold text-xs uppercase tracking-wider">Shared CA UDIN Number</div>
+            <div class="font-mono text-[11px] text-amber-300 mt-1 bg-slate-950 px-2 py-1 rounded border border-amber-900">
+              UDIN: 23049182BBBB912831 (Duplicate)
+            </div>
+          </div>
+        </div>
+
+        <!-- Bidder 3 Node -->
+        <div class="bg-slate-950 border border-rose-500/40 rounded-xl p-5 text-center">
+          <span class="text-xs font-bold uppercase tracking-wider text-rose-400 bg-rose-950/60 px-2.5 py-1 rounded-full border border-rose-800">
+            Supposed Competitor B
+          </span>
+          <h3 class="text-lg font-bold text-white mt-3">Zenith Piping Corp</h3>
+          <p class="text-slate-400 text-xs mt-1">Quoted: ₹19.80 Cr <span class="text-amber-400">(-39.4% ALT)</span></p>
+          <div class="mt-3 text-left bg-slate-900 p-2.5 rounded border border-slate-800 text-[11px] font-mono text-slate-300">
+            <div>Turnover: ₹16.8 Cr (Passes)</div>
+            <div>ISO 45001: Active 2026</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Verdict Banner -->
+      <div class="mt-6 bg-rose-950/80 border border-rose-600 rounded-xl p-4 text-center">
+        <span class="text-rose-300 font-bold text-sm uppercase tracking-wide">
+          🚨 Forensic Verdict: Horizontal Cartelization & Shadow Bidding Detected
+        </span>
+        <p class="text-slate-300 text-xs mt-1">
+          Both submissions originated from the exact same physical machine and shared a forged CA UDIN. Bidders disqualified under CVC Vigilance Norms and referred to Competition Commission of India (CCI).
+        </p>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

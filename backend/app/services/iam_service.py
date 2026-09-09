@@ -1,0 +1,92 @@
+import datetime
+import uuid
+from typing import List, Optional
+from app.models.iam import UserProfile, UserRole, UserPermission, AuditLogEntry
+
+# Pre-configured Government Evaluation Personas
+DEFAULT_USERS = [
+    UserProfile(
+        id="USR-EXEC-01",
+        name="Shri Rajesh Kumar, IAS",
+        designation="Joint Secretary & Chairman, TEC",
+        department="Ministry of Petroleum and Natural Gas",
+        role=UserRole.CHIEF_EXECUTIVE,
+        permissions=[
+            UserPermission.MODIFY_THRESHOLDS,
+            UserPermission.APPROVE_EVALUATION,
+            UserPermission.EXPORT_REPORTS,
+            UserPermission.VIEW_FORENSICS,
+            UserPermission.VIEW_AUDIT_LOGS
+        ]
+    ),
+    UserProfile(
+        id="USR-TECH-02",
+        name="Dr. Priya Sharma",
+        designation="Chief Executive Engineer (Pipelines)",
+        department="GAIL / MoPNG Technical Scrutiny Wing",
+        role=UserRole.TECHNICAL_SCRUTINIZER,
+        permissions=[
+            UserPermission.VERIFY_COMPLIANCE,
+            UserPermission.UPLOAD_DOCUMENTS,
+            UserPermission.EXPORT_REPORTS
+        ]
+    ),
+    UserProfile(
+        id="USR-VIG-03",
+        name="Shri Anil Verma",
+        designation="Chief Vigilance Officer (CVO)",
+        department="Central Vigilance Commission / MoPNG",
+        role=UserRole.VIGILANCE_OFFICER,
+        permissions=[
+            UserPermission.VIEW_FORENSICS,
+            UserPermission.VIEW_AUDIT_LOGS,
+            UserPermission.EXPORT_REPORTS
+        ]
+    ),
+    UserProfile(
+        id="USR-OCR-04",
+        name="Suresh Patil",
+        designation="Document Ingestion & OCR Operator",
+        department="National Informatics Centre (NIC) Procurement Support",
+        role=UserRole.OCR_OPERATOR,
+        permissions=[
+            UserPermission.UPLOAD_DOCUMENTS,
+            UserPermission.TRIGGER_OCR
+        ]
+    )
+]
+
+AUDIT_LOGS: List[AuditLogEntry] = []
+
+class IAMService:
+    @staticmethod
+    def get_all_users() -> List[UserProfile]:
+        return DEFAULT_USERS
+
+    @staticmethod
+    def get_user_by_role(role: UserRole) -> Optional[UserProfile]:
+        return next((u for u in DEFAULT_USERS if u.role == role), None)
+
+    @staticmethod
+    def log_action(user: UserProfile, action: str, target: str, details: str):
+        entry = AuditLogEntry(
+            log_id=f"LOG-{uuid.uuid4().hex[:6].upper()}",
+            timestamp=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            user_id=user.id,
+            user_name=user.name,
+            role=user.role,
+            action=action,
+            target_entity=target,
+            details=details
+        )
+        AUDIT_LOGS.insert(0, entry) # Most recent first
+        return entry
+
+    @staticmethod
+    def get_audit_logs() -> List[AuditLogEntry]:
+        return AUDIT_LOGS
+
+# Seed initial logs
+_admin = DEFAULT_USERS[0]
+IAMService.log_action(_admin, "SYSTEM_INITIALIZATION", "Procurement Engine", "System started with CVC Compliance Mode Active")
+IAMService.log_action(DEFAULT_USERS[3], "SAMPLE_DATA_LOADED", "Tender: MOPNG-TND-2024-881", "Ingested MoPNG Gas Pipeline Tender & 3 Bidder Dossiers")

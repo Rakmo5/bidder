@@ -1,5 +1,7 @@
+import datetime
 from fastapi import APIRouter, HTTPException, Response
 from app.api.v1.evaluate import EVALUATION_CACHE
+from app.api.v1.bidders import ACTIVE_BIDDERS
 
 router = APIRouter()
 
@@ -52,3 +54,100 @@ async def export_evaluation_report(tender_id: str):
         media_type="text/plain",
         headers={"Content-Disposition": f"attachment; filename=TEC_Scrutiny_Report_{tender_id}.txt"}
     )
+
+@router.get("/clarification-notice/{tender_id}/{bidder_id}")
+async def generate_gfr_clarification_notice(tender_id: str, bidder_id: str):
+    """Generates an official statutory GFR Rule 173 Clarification Notice with exact clause citations and 48-hour response deadline."""
+    if tender_id not in EVALUATION_CACHE:
+        raise HTTPException(status_code=404, detail="Evaluation not found for this tender. Run evaluation first.")
+    
+    rep = EVALUATION_CACHE[tender_id]
+    bidder_rep = next((b for b in rep.bidder_reports if b.bidder_id == bidder_id), None)
+    if not bidder_rep:
+        raise HTTPException(status_code=404, detail="Bidder evaluation report not found")
+    
+    bidder_info = ACTIVE_BIDDERS.get(bidder_id)
+    company_name = bidder_rep.company_name
+
+    # Identify non-compliant / partial clauses
+    deficiencies = []
+    for item in bidder_rep.checks:
+        if item.status in ["NON_COMPLIANT", "PARTIAL_DISCREPANCY", "NEEDS_HUMAN_REVIEW"]:
+            deficiencies.append({
+                "clause_id": item.requirement_id,
+                "parameter": item.parameter,
+                "citation": item.clause_ref,
+                "evidence": item.evidence_snippet,
+                "reason": item.rejection_reason or "Documentary condition not fulfilled"
+            })
+
+    
+    now_str = datetime.datetime.now().strftime("%d-%b-%Y")
+    deadline_str = (datetime.datetime.now() + datetime.timedelta(hours=48)).strftime("%d-%b-%Y %H:%M HRS IST")
+    notice_ref = f"MOPNG/TEC/GFR173/2024/{bidder_id[-4:]}"
+
+    lines = [
+        "================================================================================",
+        f"               GOVERNMENT OF INDIA - {rep.issuing_authority.upper()}",
+        "                   TENDER EVALUATION COMMITTEE (TEC) SECRETARIAT",
+        "================================================================================",
+        f"Notice Ref No: {notice_ref}                               Date: {now_str}",
+        "",
+        "TO:",
+        f"The Authorized Signatory / Managing Director",
+        f"M/s {company_name}",
+        f"Bidder Registration ID: {bidder_id}",
+        "",
+        f"SUBJECT: STATUTORY CLARIFICATION NOTICE UNDER RULE 173 OF GENERAL FINANCIAL RULES (GFR 2017)",
+        f"TENDER REF: {tender_id} - '{rep.tender_title}'",
+        "--------------------------------------------------------------------------------",
+        "",
+        "Sir / Madam,",
+        "",
+        "1. During technical scrutiny of the bid submitted by your firm against the subject tender,",
+        "   the Tender Evaluation Committee (TEC) observed the following discrepancies / non-compliances:",
+        ""
+    ]
+
+    if deficiencies:
+        for idx, d in enumerate(deficiencies, 1):
+            lines.append(f"   [{idx}] Parameter: {d['parameter']}")
+            lines.append(f"       Clause Reference: {d['citation']}")
+            lines.append(f"       Scrutiny Finding: {d['reason']}")
+            lines.append(f"       Extracted Document Proof: \"{d['evidence']}\"")
+            lines.append("")
+    else:
+        lines.append("   - Your bid prima facie meets all threshold criteria. This notice confirms pre-award verification.")
+        lines.append("")
+
+    lines.extend([
+        "2. In terms of GFR 2017 Rule 173 and MoPNG Procurement Guidelines, you are hereby called upon",
+        f"   to furnish necessary clarification and authenticated documentary evidence within 48 HOURS",
+        f"   (i.e., on or before {deadline_str}) via the GeM Portal / e-Procurement Portal.",
+        "",
+        "3. Please note that no modification in the substantive financial or technical terms of your bid",
+        "   shall be permitted. Failure to respond within the stipulated timeline will result in the TEC",
+        "   evaluating your tender based solely on records already submitted, which may lead to summary rejection.",
+        "",
+        "Yours faithfully,",
+        "",
+        "Digitally Signed by:",
+        "Dr. Priya Sharma",
+        "Technical Scrutinizer / Senior Procurement Officer",
+        f"Tender Evaluation Committee, {rep.issuing_authority}",
+        "================================================================================"
+    ])
+
+    notice_text = "\n".join(lines)
+    return {
+        "notice_ref": notice_ref,
+        "tender_id": tender_id,
+        "bidder_id": bidder_id,
+        "company_name": company_name,
+        "generated_date": now_str,
+        "response_deadline": deadline_str,
+        "deficiencies_count": len(deficiencies),
+        "deficiencies": deficiencies,
+        "notice_text": notice_text
+    }
+

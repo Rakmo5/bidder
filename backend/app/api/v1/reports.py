@@ -84,7 +84,7 @@ async def generate_gfr_clarification_notice(tender_id: str, bidder_id: str):
     
     now_str = datetime.datetime.now().strftime("%d-%b-%Y")
     deadline_str = (datetime.datetime.now() + datetime.timedelta(hours=48)).strftime("%d-%b-%Y %H:%M HRS IST")
-    notice_ref = f"MOPNG/TEC/GFR173/2024/{bidder_id[-4:]}"
+    notice_ref = f"MORTH/TEC/GFR173/2024/{bidder_id[-4:]}"
 
     lines = [
         "================================================================================",
@@ -121,7 +121,7 @@ async def generate_gfr_clarification_notice(tender_id: str, bidder_id: str):
         lines.append("")
 
     lines.extend([
-        "2. In terms of GFR 2017 Rule 173 and MoPNG Procurement Guidelines, you are hereby called upon",
+        "2. In terms of GFR 2017 Rule 173 and MoRTH / NHAI Procurement Guidelines, you are hereby called upon",
         f"   to furnish necessary clarification and authenticated documentary evidence within 48 HOURS",
         f"   (i.e., on or before {deadline_str}) via the GeM Portal / e-Procurement Portal.",
         "",

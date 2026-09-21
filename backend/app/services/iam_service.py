@@ -3,13 +3,13 @@ import uuid
 from typing import List, Optional
 from app.models.iam import UserProfile, UserRole, UserPermission, AuditLogEntry
 
-# Pre-configured Government Evaluation Personas
+# Pre-configured Highway Evaluation Personas
 DEFAULT_USERS = [
     UserProfile(
         id="USR-EXEC-01",
         name="Shri Rajesh Kumar, IAS",
-        designation="Joint Secretary & Chairman, TEC",
-        department="Ministry of Petroleum and Natural Gas",
+        designation="Additional Secretary & Member (Technical)",
+        department="National Highways Authority of India (NHAI) / MoRTH",
         role=UserRole.CHIEF_EXECUTIVE,
         permissions=[
             UserPermission.MODIFY_THRESHOLDS,
@@ -22,8 +22,8 @@ DEFAULT_USERS = [
     UserProfile(
         id="USR-TECH-02",
         name="Dr. Priya Sharma",
-        designation="Chief Executive Engineer (Pipelines)",
-        department="GAIL / MoPNG Technical Scrutiny Wing",
+        designation="Chief Engineer (Highways & Quality Control)",
+        department="Ministry of Road Transport and Highways (MoRTH)",
         role=UserRole.TECHNICAL_SCRUTINIZER,
         permissions=[
             UserPermission.VERIFY_COMPLIANCE,
@@ -35,7 +35,7 @@ DEFAULT_USERS = [
         id="USR-VIG-03",
         name="Shri Anil Verma",
         designation="Chief Vigilance Officer (CVO)",
-        department="Central Vigilance Commission / MoPNG",
+        department="Central Vigilance Commission (CVC) / NHAI Vigilance",
         role=UserRole.VIGILANCE_OFFICER,
         permissions=[
             UserPermission.VIEW_FORENSICS,
@@ -46,8 +46,8 @@ DEFAULT_USERS = [
     UserProfile(
         id="USR-OCR-04",
         name="Suresh Patil",
-        designation="Document Ingestion & OCR Operator",
-        department="National Informatics Centre (NIC) Procurement Support",
+        designation="Material Testing & Document Ingestion Officer",
+        department="Central Road Research Institute (CRRI) / NIC Procurement Support",
         role=UserRole.OCR_OPERATOR,
         permissions=[
             UserPermission.UPLOAD_DOCUMENTS,
@@ -88,5 +88,6 @@ class IAMService:
 
 # Seed initial logs
 _admin = DEFAULT_USERS[0]
-IAMService.log_action(_admin, "SYSTEM_INITIALIZATION", "Procurement Engine", "System started with CVC Compliance Mode Active")
-IAMService.log_action(DEFAULT_USERS[3], "SAMPLE_DATA_LOADED", "Tender: MOPNG-TND-2024-881", "Ingested MoPNG Gas Pipeline Tender & 3 Bidder Dossiers")
+IAMService.log_action(_admin, "SYSTEM_INITIALIZATION", "MoRTH Highway Scrutiny Engine", "System initialized with IRC:37-2018 & CVC Anti-Cartel Mode Active")
+IAMService.log_action(DEFAULT_USERS[3], "SAMPLE_DATA_LOADED", "Tender: MORTH-NH-2024-402", "Ingested NHAI 4-Lane Greenfield Bypass EPC Tender & 3 Contractor Dossiers")
+

@@ -176,43 +176,73 @@ class ComplianceEngine:
                     0.0
                 )
 
-        # 4. Equipment / Machinery Check
-        if "equipment" in param_lower or "machinery" in param_lower or "plant" in param_lower:
+        # 4. Equipment / Machinery / Pavers / Batching Plant Check
+        if any(w in param_lower for w in ["equipment", "machinery", "plant", "paver", "slipform", "sensor"]):
+            machinery_str = " ".join(bidder.machinery_owned).lower()
+            has_sensor_paver = "sensor" in machinery_str or "slipform" in machinery_str or "paver" in machinery_str
+            has_plant = "plant" in machinery_str or "batching" in machinery_str or "mix" in machinery_str
             machinery_count = len(bidder.machinery_owned)
-            claimed_str = f"{machinery_count} Major Plant Units Declared ({', '.join(bidder.machinery_owned[:2])})"
-            if machinery_count >= 2:
-                snippet = f"Annexure VII (Plant & Machinery): Outright possession of {', '.join(bidder.machinery_owned)} with valid calibration certificates."
+            claimed_str = f"{machinery_count} Core Highway Plant Units ({', '.join(bidder.machinery_owned[:2])})"
+
+            if has_sensor_paver and has_plant:
+                snippet = f"Annexure VII (Highway Plant & Machinery): Outright possession of {', '.join(bidder.machinery_owned)} with MoRTH calibrated electronic slope sensors and SCADA automated batching loggers."
                 return (
                     ComplianceStatus.COMPLIANT,
                     claimed_str,
                     snippet,
                     "Equipment_Schedule_Affidavit.pdf",
                     7,
-                    0.94,
+                    0.98,
                     None,
                     req.qcbs_weight
                 )
+            elif has_sensor_paver or machinery_count >= 2:
+                snippet = f"Equipment Schedule: Possesses {', '.join(bidder.machinery_owned)}. Sensor pavers certified; batching plant leased."
+                return (
+                    ComplianceStatus.COMPLIANT,
+                    claimed_str,
+                    snippet,
+                    "Equipment_Schedule_Affidavit.pdf",
+                    7,
+                    0.92,
+                    None,
+                    round(req.qcbs_weight * 0.85, 2)
+                )
             else:
-                snippet = f"Machinery declaration lists: {', '.join(bidder.machinery_owned) if bidder.machinery_owned else 'None'}. Equipment relies on third-party dry leases without binding MOU."
-                status = ComplianceStatus.PARTIAL_DISCREPANCY if not req.is_mandatory else ComplianceStatus.NON_COMPLIANT
-                reason = "Key induction bending and internal clamp machinery not owned; reliance on uncommitted hire."
+                snippet = f"Machinery declaration lists: {', '.join(bidder.machinery_owned) if bidder.machinery_owned else 'None'}. Relies on manual mini-pavers without electronic grade/slope sensors."
+                status = ComplianceStatus.NON_COMPLIANT if req.is_mandatory else ComplianceStatus.PARTIAL_DISCREPANCY
+                reason = "Lacks mandatory Electronic Sensor Pavers / Slipform equipment as mandated by MoRTH Section 500 & IRC:37. High risk of uneven road compaction and premature monsoon failure."
                 return (
                     status,
                     claimed_str,
                     snippet,
                     "Equipment_Schedule_Affidavit.pdf",
                     7,
-                    0.88,
+                    0.94,
                     reason,
-                    req.qcbs_weight * 0.4
+                    round(req.qcbs_weight * 0.3, 2)
                 )
 
-        # 5. EMD / Bid Security
-        if "emd" in param_lower or "security" in param_lower or "deposit" in param_lower:
-            snippet = f"Original Bank Guarantee No. BG-SBI-2024-8871 for ₹25,00,000 issued by State Bank of India, Commercial Branch, valid for 180 days."
+        # 5. Defect Liability Period (DLP) & 5-Year Maintenance
+        if any(w in param_lower for w in ["defect liability", "maintenance", "guarantee", "dlp"]):
+            snippet = f"Notarized Undertaking as per MoRTH EPC Model Clause 17: {bidder.company_name} commits to 60-Month (5-Year) comprehensive structural maintenance and pothole rectification backed by 5% Performance Security."
             return (
                 ComplianceStatus.COMPLIANT,
-                "Bank Guarantee ₹25,00,000 Submitted",
+                "60-Month Comprehensive Maintenance Guarantee Submitted",
+                snippet,
+                "Defect_Liability_Undertaking.pdf",
+                1,
+                0.99,
+                None,
+                req.qcbs_weight
+            )
+
+        # 6. EMD / Bid Security
+        if any(w in param_lower for w in ["emd", "security", "deposit"]):
+            snippet = f"Original Bank Guarantee No. BG-SBI-2024-8871 for ₹50,00,000 issued by State Bank of India, Commercial Branch, valid for 180 days."
+            return (
+                ComplianceStatus.COMPLIANT,
+                "Bank Guarantee ₹50,00,000 Submitted",
                 snippet,
                 "EMD_Bank_Guarantee_Scanned.pdf",
                 1,
@@ -221,8 +251,22 @@ class ComplianceEngine:
                 req.qcbs_weight
             )
 
-        # 6. Legal / Non-Blacklisting
-        snippet = f"Notarized affidavit on ₹100 non-judicial stamp paper affirming {bidder.company_name} has never been blacklisted by any Govt / PSU entity."
+        # 7. Subgrade CBR / Bitumen Grade / Soil Compaction
+        if any(w in param_lower for w in ["cbr", "bitumen", "subgrade", "compaction"]):
+            snippet = f"Core Material Testing Report: Subgrade CBR test certified at 8.4% (> 8.0% minimum as per IRC:37). Wearing course Bitumen tested as VG-40 viscosity grade conforming to IS:73."
+            return (
+                ComplianceStatus.COMPLIANT,
+                "CBR 8.4% & VG-40 Bitumen Tested",
+                snippet,
+                "Soil_and_Bitumen_Test_Report.pdf",
+                5,
+                0.97,
+                None,
+                req.qcbs_weight
+            )
+
+        # 8. Legal / Non-Blacklisting & Integrity Undertaking
+        snippet = f"Notarized affidavit on ₹100 non-judicial stamp paper affirming {bidder.company_name} has never been debarred by MoRTH, NHAI, CVC or State PWD."
         return (
             ComplianceStatus.COMPLIANT,
             "Signed Integrity Pact & Notarized Affidavit",
@@ -233,3 +277,4 @@ class ComplianceEngine:
             None,
             req.qcbs_weight
         )
+

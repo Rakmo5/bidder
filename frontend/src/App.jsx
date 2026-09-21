@@ -27,7 +27,7 @@ const API_BASE = "http://localhost:8000/api/v1";
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [ministry, setMinistry] = useState('MoPNG'); // 'MoPNG' | 'MoRTH'
+  const [ministry, setMinistry] = useState('MoRTH'); // Default to MoRTH Highway
   const [tender, setTender] = useState(null);
   const [bidders, setBidders] = useState([]);
   const [evaluation, setEvaluation] = useState(null);
@@ -164,7 +164,7 @@ export default function App() {
     setInspectModal({ item, bidder });
     setBboxData(null);
     try {
-      const filename = bidder.documents[0]?.filename || 'Bidder1_LT_Hydrocarbon_Engineering.pdf';
+      const filename = bidder.documents[0]?.filename || 'Bidder1_LT_Transportation_Infrastructure.pdf';
       const res = await fetch(`${API_BASE}/ocr/evidence-bbox?filename=${encodeURIComponent(filename)}&page_number=1&snippet=${encodeURIComponent(item.extracted_evidence)}`);
       if (res.ok) {
         const data = await res.json();
@@ -213,29 +213,14 @@ export default function App() {
         <div className="header-brand">
           <div className="gov-emblem-badge">सत्यमेव जयते</div>
           <div className="header-titles">
-            <h1>Autonomous AI Bid Compliance & Anti-Cartelization Engine</h1>
-            <p>Government of India | Central Vigilance Commission (CVC) & GeM 3.0 Integration</p>
+            <h1>Autonomous AI Bid Scrutiny & Pavement QCBS Evaluation Engine</h1>
+            <p>Ministry of Road Transport & Highways (MoRTH) / NHAI | CVC Vigilance & GeM 3.0 Integration</p>
           </div>
         </div>
 
         <div className="header-controls">
           {/* Ministry Switcher */}
           <div style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '2px' }}>
-            <button
-              onClick={() => setMinistry('MoPNG')}
-              style={{
-                background: ministry === 'MoPNG' ? '#2563eb' : 'transparent',
-                color: ministry === 'MoPNG' ? '#fff' : '#94a3b8',
-                border: 'none',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                cursor: 'pointer'
-              }}
-            >
-              MoPNG (Gas Pipeline)
-            </button>
             <button
               onClick={() => setMinistry('MoRTH')}
               style={{
@@ -250,6 +235,21 @@ export default function App() {
               }}
             >
               MoRTH (Highway EPC)
+            </button>
+            <button
+              onClick={() => setMinistry('MoPNG')}
+              style={{
+                background: ministry === 'MoPNG' ? '#2563eb' : 'transparent',
+                color: ministry === 'MoPNG' ? '#fff' : '#94a3b8',
+                border: 'none',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              MoPNG (Gas Pipeline)
             </button>
           </div>
 
@@ -321,6 +321,24 @@ export default function App() {
                   <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
                     Issuing Authority: <strong style={{ color: '#e2e8f0' }}>{tender.issuing_authority}</strong> | Estimated Cost: <strong style={{ color: '#34d399' }}>₹{(tender.estimated_cost_inr / 1e7).toFixed(2)} Crore</strong> | QCBS Formula: <strong style={{ color: '#60a5fa' }}>{tender.qcbs_ratio}</strong>
                   </p>
+                  
+                  {/* Highway Engineering Specifications Bar */}
+                  {tender.lane_km && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', marginTop: '0.75rem' }}>
+                      <span className="badge badge-green" style={{ fontSize: '0.75rem' }}>
+                        🛣️ Length: {tender.length_km} km ({tender.lane_km} Lane-KM)
+                      </span>
+                      <span className="badge badge-blue" style={{ fontSize: '0.75rem' }}>
+                        ⏳ Design Life: {tender.design_life_years} Years (150 MSA Traffic)
+                      </span>
+                      <span className="badge badge-amber" style={{ fontSize: '0.75rem' }}>
+                        🏗️ Pavement: {tender.pavement_type}
+                      </span>
+                      <span className="badge badge-blue" style={{ fontSize: '0.75rem' }}>
+                        📜 Norms: {tender.standards_compliance}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div style={{ display: 'flex', gap: '0.75rem' }}>
@@ -347,7 +365,7 @@ export default function App() {
                   <h3 style={{ fontSize: '1rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Scale size={18} color="#60a5fa" /> Tender Eligibility & QCBS Criteria Matrix ({tender.requirements.length} Parameters)
                   </h3>
-                  <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Statutory Reference: GFR 2017 / MoPNG Guidelines</span>
+                  <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Statutory Reference: GFR 2017 / MoRTH & IRC Norms</span>
                 </div>
 
                 <div style={{ overflowX: 'auto', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px' }}>
@@ -587,27 +605,27 @@ export default function App() {
                     <line x1="200" y1="60" x2="400" y2="50" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4,4" />
                     <line x1="600" y1="60" x2="400" y2="50" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4,4" />
 
-                    {/* Node 1: Apex InfraTech */}
+                    {/* Node 1: Apex Highway Builders */}
                     <g className="cartel-node" transform="translate(200, 60)">
                       <circle r="36" fill="#1e1b4b" stroke="#ef4444" strokeWidth="3" />
-                      <text textAnchor="middle" y="-6" fill="#ffffff" fontSize="11" fontWeight="700">Apex InfraTech</text>
+                      <text textAnchor="middle" y="-6" fill="#ffffff" fontSize="11" fontWeight="700">Apex Highway</text>
                       <text textAnchor="middle" y="10" fill="#f87171" fontSize="9">Bidder 2</text>
-                      <text textAnchor="middle" y="24" fill="#94a3b8" fontSize="8">₹32.40 Cr</text>
+                      <text textAnchor="middle" y="24" fill="#94a3b8" fontSize="8">₹65.84 Cr</text>
                     </g>
 
-                    {/* Node 2: Zenith Piping */}
+                    {/* Node 2: Zenith Expressways */}
                     <g className="cartel-node" transform="translate(600, 60)">
                       <circle r="36" fill="#1e1b4b" stroke="#ef4444" strokeWidth="3" />
-                      <text textAnchor="middle" y="-6" fill="#ffffff" fontSize="11" fontWeight="700">Zenith Piping</text>
+                      <text textAnchor="middle" y="-6" fill="#ffffff" fontSize="11" fontWeight="700">Zenith Express</text>
                       <text textAnchor="middle" y="10" fill="#f87171" fontSize="9">Bidder 3</text>
-                      <text textAnchor="middle" y="24" fill="#94a3b8" fontSize="8">₹34.80 Cr</text>
+                      <text textAnchor="middle" y="24" fill="#94a3b8" fontSize="8">₹46.25 Cr</text>
                     </g>
 
                     {/* Shared Workstation Hub */}
                     <g className="cartel-node" transform="translate(400, 130)">
                       <circle r="32" fill="#3b0764" stroke="#d946ef" strokeWidth="2" />
                       <text textAnchor="middle" y="-5" fill="#f5d0fe" fontSize="10" fontWeight="700">Shared Host</text>
-                      <text textAnchor="middle" y="9" fill="#e879f9" fontSize="8">DESKTOP-GAIL-99</text>
+                      <text textAnchor="middle" y="9" fill="#e879f9" fontSize="8">NHAI-WORKSTATION-09</text>
                       <text textAnchor="middle" y="21" fill="#a855f7" fontSize="8">MAC: A4:83:E7:...</text>
                     </g>
 
@@ -615,7 +633,7 @@ export default function App() {
                     <g className="cartel-node" transform="translate(400, 45)">
                       <circle r="26" fill="#451a03" stroke="#f59e0b" strokeWidth="2" />
                       <text textAnchor="middle" y="-2" fill="#fef3c7" fontSize="9" fontWeight="700">Shared UDIN</text>
-                      <text textAnchor="middle" y="11" fill="#fbbf24" fontSize="8">23094821B</text>
+                      <text textAnchor="middle" y="11" fill="#fbbf24" fontSize="8">23049182B</text>
                     </g>
                   </svg>
                 </div>
@@ -886,7 +904,7 @@ export default function App() {
                 <div className="pdf-page-viewer-wrapper" style={{ maxHeight: '450px', overflowY: 'auto' }}>
                   <div style={{ position: 'relative', width: '100%' }}>
                     <img
-                      src={`${API_BASE}/ocr/page-image/${encodeURIComponent(inspectModal.bidder.documents[0]?.filename || 'Bidder1_LT_Hydrocarbon_Engineering.pdf')}/1`}
+                      src={`${API_BASE}/ocr/page-image/${encodeURIComponent(inspectModal.bidder.documents[0]?.filename || 'Bidder1_LT_Transportation_Infrastructure.pdf')}/1`}
                       alt="Document Page"
                       className="pdf-page-image"
                       onError={(e) => {

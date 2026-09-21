@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --primary-gov: #0a1e3b;       /* Deep MoPNG Navy */
-  --primary-accent: #1e40af;    /* Royal Blue */
-  --primary-gradient: linear-gradient(135deg, #0a1e3b 0%, #1e3a8a 100%);
+  --primary-gov: #064e3b;       /* MoRTH Highway Forest Green */
+  --primary-accent: #059669;    /* Highway Emerald */
+  --primary-gradient: linear-gradient(135deg, #064e3b 0%, #047857 50%, #0d9488 100%);
   --india-saffron: #ff9933;
   --india-green: #138808;
-  --bg-slate: #080e1e;          /* Sleek Deep Slate BG */
-  --card-bg: #111c38;
+  --bg-slate: #09101d;          /* Sleek Dark Highway Asphalt Slate */
+  --card-bg: #0f1c2e;
   --card-border: #1e293b;
-  --card-hover: #172554;
+  --card-hover: #162a45;
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;

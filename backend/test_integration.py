@@ -62,6 +62,21 @@ assert r_users.status_code == 200
 for u in r_users.json():
     print(f"   [User] {u['name']} [{u['role']}] - {u['department']}")
 
+print("9. Testing AI & Hybrid RAG Retrieval Engine:")
+r_rag_status = client.get("/api/v1/ai/status")
+assert r_rag_status.status_code == 200
+print("   RAG Pipeline Architecture:", r_rag_status.json()["pipeline_architecture"])
+
+r_rag_query = client.post("/api/v1/ai/query-rag", json={
+    "document_name": "Bidder1_LT_Transportation_Infrastructure.pdf",
+    "query": "What is the civil turnover and sensor paver machinery owned by L&T?"
+})
+assert r_rag_query.status_code == 200
+rag_data = r_rag_query.json()
+print("   RAG Grounded Answer:", rag_data["answer"])
+print("   RAG Confidence Score:", f"{rag_data['confidence_score']*100:.1f}%")
+print("   RAG Provider Used:", rag_data["llm_provider_used"])
+
 print("\n" + "="*70)
-print(">>> ALL 8 MoRTH HIGHWAY INTEGRATION SUITES PASSED 100%! <<<")
+print(">>> ALL 9 MoRTH HIGHWAY & AI/RAG INTEGRATION SUITES PASSED 100%! <<<")
 print("="*70)

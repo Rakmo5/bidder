@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api.v1 import tenders, bidders, evaluate, reports, iam, ocr, gem
+from app.api.v1 import tenders, bidders, evaluate, reports, iam, ocr, gem, ai
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -27,6 +27,7 @@ app.include_router(reports.router, prefix=f"{settings.API_V1_STR}/reports", tags
 app.include_router(iam.router, prefix=f"{settings.API_V1_STR}/iam", tags=["IAM & Audit Logging"])
 app.include_router(ocr.router, prefix=f"{settings.API_V1_STR}/ocr", tags=["OCR Pipeline & Evidence"])
 app.include_router(gem.router, prefix=f"{settings.API_V1_STR}/gem", tags=["GeM & OCDS Integration"])
+app.include_router(ai.router, prefix=f"{settings.API_V1_STR}/ai", tags=["AI & RAG Pipeline"])
 
 @app.get("/")
 async def root():

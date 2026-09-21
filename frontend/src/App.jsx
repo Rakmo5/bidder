@@ -20,7 +20,9 @@ import {
   X,
   ExternalLink,
   ShieldCheck,
-  UserCheck
+  UserCheck,
+  Bot,
+  Search
 } from 'lucide-react';
 
 const API_BASE = "http://localhost:8000/api/v1";
@@ -44,6 +46,13 @@ export default function App() {
   const [gfrNoticeModal, setGfrNoticeModal] = useState(null);
   const [gemExportModal, setGemExportModal] = useState(null);
   const [showAuditDrawer, setShowAuditDrawer] = useState(false);
+
+  // RAG Pipeline Modal State
+  const [ragModalOpen, setRagModalOpen] = useState(false);
+  const [ragDoc, setRagDoc] = useState('');
+  const [ragQuery, setRagQuery] = useState('');
+  const [ragResponse, setRagResponse] = useState(null);
+  const [ragLoading, setRagLoading] = useState(false);
   
   // OCR Bounding Box Evidence state
   const [bboxData, setBboxData] = useState(null);
@@ -203,6 +212,31 @@ export default function App() {
     }
   };
 
+  const handleExecuteRAGQuery = async () => {
+    if (!ragDoc || !ragQuery) return;
+    try {
+      setRagLoading(true);
+      const res = await fetch(`${API_BASE}/ai/query-rag`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          document_name: ragDoc,
+          query: ragQuery,
+          top_k: 3
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setRagResponse(data);
+        logAction("EXECUTE_RAG_QUERY", ragDoc, `Queried RAG engine: "${ragQuery.slice(0, 40)}..."`);
+      }
+    } catch (e) {
+      console.error("RAG Query Failed", e);
+    } finally {
+      setRagLoading(false);
+    }
+  };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Top Govt Tricolor Band */}
@@ -252,6 +286,20 @@ export default function App() {
               MoPNG (Gas Pipeline)
             </button>
           </div>
+
+          {/* RAG AI Assistant Button */}
+          <button
+            onClick={() => {
+              if (bidders.length > 0 && !ragDoc) {
+                setRagDoc(bidders[0].documents[0]?.filename || 'Bidder1_LT_Hydrocarbon_Engineering.pdf');
+              }
+              setRagModalOpen(true);
+            }}
+            className="btn-accent"
+            style={{ padding: '0.35rem 0.75rem', fontSize: '0.78rem', background: '#4f46e5', borderColor: '#6366f1' }}
+          >
+            <Bot size={15} /> AI & RAG Query
+          </button>
 
           {/* IAM Role Switcher */}
           <div className="iam-role-selector">
@@ -1181,6 +1229,164 @@ export default function App() {
 
             <div className="modal-footer">
               <button className="btn-secondary" onClick={() => setShowAuditDrawer(false)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* MODAL: INTERACTIVE AI & RAG QUERY ASSISTANT */}
+      {ragModalOpen && (
+        <div className="modal-backdrop" onClick={() => setRagModalOpen(false)}>
+          <div className="modal-content" style={{ maxWidth: '850px' }} onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <Bot size={24} color="#6366f1" />
+                <div>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#f8fafc' }}>
+                    Interactive AI & RAG Scrutiny Assistant
+                  </h3>
+                  <p style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+                    Hybrid BM25 + Vector Retrieval + LLM Grounding over Bidder PDF Dossiers
+                  </p>
+                </div>
+              </div>
+              <button onClick={() => setRagModalOpen(false)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {/* Document Selector & Query Form */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', marginBottom: '4px' }}>
+                    Target Dossier Document:
+                  </label>
+                  <select
+                    value={ragDoc}
+                    onChange={(e) => setRagDoc(e.target.value)}
+                    className="iam-select"
+                    style={{ width: '100%', padding: '8px' }}
+                  >
+                    {bidders.map((b) => (
+                      <option key={b.id} value={b.documents[0]?.filename || 'Bidder1_LT_Hydrocarbon_Engineering.pdf'}>
+                        {b.company_name} ({b.documents[0]?.filename})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', marginBottom: '4px' }}>
+                    Audit Query or Fact-Checking Question:
+                  </label>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <input
+                      type="text"
+                      value={ragQuery}
+                      onChange={(e) => setRagQuery(e.target.value)}
+                      placeholder="e.g., What is the annual turnover and UDIN number?"
+                      onKeyDown={(e) => { if (e.key === 'Enter') handleExecuteRAGQuery(); }}
+                      style={{
+                        flex: 1,
+                        background: '#090f1f',
+                        border: '1px solid rgba(255,255,255,0.15)',
+                        borderRadius: '6px',
+                        padding: '8px 12px',
+                        color: '#f8fafc',
+                        fontSize: '0.85rem'
+                      }}
+                    />
+                    <button
+                      className="btn-primary"
+                      onClick={handleExecuteRAGQuery}
+                      disabled={ragLoading || !ragQuery}
+                      style={{ background: '#4f46e5', borderColor: '#6366f1' }}
+                    >
+                      {ragLoading ? <RefreshCw className="spin" size={16} /> : <Search size={16} />} Ask RAG
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sample Quick Questions Chips */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Quick Prompts:</span>
+                {[
+                  "What is the average 3-year turnover & UDIN?",
+                  "Verify ISO 45001 safety certificate expiry date",
+                  "What heavy machinery and pavers are owned?",
+                  "Check quoted financial bid and discount against baseline"
+                ].map((prompt, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setRagQuery(prompt);
+                    }}
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: '12px',
+                      padding: '3px 10px',
+                      color: '#cbd5e1',
+                      fontSize: '0.74rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
+
+              {/* RAG Synthesis Result Card */}
+              {ragResponse && (
+                <div style={{ background: '#090f1f', border: '1px solid rgba(99, 102, 241, 0.3)', borderRadius: '8px', padding: '1.25rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Bot size={18} color="#818cf8" />
+                      <strong style={{ color: '#818cf8', fontSize: '0.9rem' }}>Grounded RAG Answer</strong>
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                      <span className="badge badge-green" style={{ fontSize: '0.72rem' }}>
+                        Confidence: {(ragResponse.confidence_score * 100).toFixed(0)}%
+                      </span>
+                      <span className="badge badge-blue" style={{ fontSize: '0.72rem' }}>
+                        {ragResponse.llm_provider_used}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div style={{ fontSize: '0.9rem', color: '#f8fafc', lineHeight: 1.6, marginBottom: '1rem', background: 'rgba(255,255,255,0.03)', padding: '0.75rem', borderRadius: '6px' }}>
+                    {ragResponse.answer}
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.75rem', borderRadius: '6px' }}>
+                      <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 700, marginBottom: '4px' }}>EXACT GROUNDED CITATION:</div>
+                      <div style={{ fontSize: '0.78rem', color: '#34d399', fontStyle: 'italic' }}>
+                        "{ragResponse.grounded_evidence}"
+                      </div>
+                      <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '6px' }}>
+                        📍 Located on <strong>Page {ragResponse.page_number}</strong>
+                      </div>
+                    </div>
+
+                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '0.75rem', borderRadius: '6px' }}>
+                      <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 700, marginBottom: '4px' }}>RETRIEVED VECTOR CHUNKS:</div>
+                      <div style={{ fontSize: '0.75rem', color: '#cbd5e1', maxHeight: '80px', overflowY: 'auto' }}>
+                        {ragResponse.retrieved_chunks.map((r, i) => (
+                          <div key={i} style={{ marginBottom: '4px' }}>
+                            <span style={{ color: '#fbbf24' }}>[Score: {r.similarity_score.toFixed(2)}]</span> Page {r.chunk.page_number}: {r.chunk.text.slice(0, 60)}...
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn-secondary" onClick={() => setRagModalOpen(false)}>Close</button>
             </div>
           </div>
         </div>

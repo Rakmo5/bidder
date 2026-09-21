@@ -195,48 +195,69 @@ bidder/
 
 ---
 
-## 🚀 7. Quick Start & Execution Guide
+---
+
+## 👨‍💻 7. Instructions for Pat: How to Configure & Run Your Final Year Project
+
+Hello Pat! Follow these simple steps to configure, test, and run your project smoothly for your college submission and demo.
+
+### 🔑 Step 1: Configuring `.env` File (Secrets & AI Keys)
+The backend uses **Groq** (super-fast Llama-3.3-70b) and/or **Google Gemini** for LLM-powered tender requirement and clause parsing.
+
+1. Open the file **`backend/.env`** in any text editor (or copy from `backend/.env.example` if needed).
+2. You will find:
+```ini
+# Environment Configurations
+PROJECT_NAME="MoRTH-Highway-BidCompliance-AI"
+API_V1_STR="/api/v1"
+ENVIRONMENT="local"
+PORT=8000
+
+# 1. Groq API Key (Recommended - Free & Instant)
+# Get a free key at: https://console.groq.com/keys
+GROQ_API_KEY="gsk_your_groq_api_key_here"
+
+# 2. Google Gemini API Key (Alternative - Free)
+# Get a free key at: https://aistudio.google.com/app/apikey
+GEMINI_API_KEY="your_gemini_api_key_here"
+
+DEFAULT_LLM_PROVIDER="groq"
+GROQ_MODEL="llama-3.3-70b-versatile"
+FAST_GROQ_MODEL="llama-3.1-8b-instant"
+GEMINI_MODEL="gemini-1.5-flash"
+```
+3. **Where to get free API keys?**
+   - **Groq:** Visit [https://console.groq.com/keys](https://console.groq.com/keys), sign in with Google/GitHub, and click **"Create API Key"**. Paste it into `GROQ_API_KEY`.
+   - **Gemini:** Visit [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey), click **"Create API Key"**, and paste it into `GEMINI_API_KEY`.
+4. *Offline/Fallback Note:* Even if API keys run out of quota during offline presentation, the system has built-in deterministic heuristic parsers that will continue to extract requirements and evaluate bids without crashing!
+
+---
+
+## 🚀 8. Quick Start & Execution Guide
 
 ### Prerequisites
-- **Python 3.10+**
+- **Python 3.10+** (Ensure Python is added to Windows PATH)
 - **Node.js 18+** & `npm`
 
-### Step 1: Backend Setup
+### Option A: 1-Click Launch (Easiest for Demo)
+1. Double-click **`run_backend.bat`** (Starts FastAPI server at `http://localhost:8000`).
+2. Double-click **`run_frontend.bat`** (Starts React frontend at `http://localhost:5173`).
+3. Open your browser at `http://localhost:5173`.
+
+### Option B: Manual Terminal Execution
 ```bash
-# Navigate to backend
+# Terminal 1: Backend
 cd backend
-
-# Activate virtual environment
-..\venv\Scripts\activate   # Windows
-# or: source ../venv/bin/activate (Linux/macOS)
-
-# Install dependencies (if not already installed)
+..\venv\Scripts\activate   # or: source ../venv/bin/activate
 pip install -r requirements.txt
-
-# Run integration test suite
-python test_integration.py
-
-# Launch FastAPI Backend Server
+python test_integration.py   # Runs all 8 test suites
 uvicorn main:app --port 8000 --reload
-```
-*Backend API Documentation will be live at `http://localhost:8000/docs`*
 
-### Step 2: Frontend Setup
-```bash
-# In a second terminal, navigate to frontend
+# Terminal 2: Frontend
 cd frontend
-
-# Install dependencies
 npm install
-
-# Start Vite Development Server
 npm run dev
 ```
-*Frontend Web Portal will be live at `http://localhost:5173`*
-
-### Step 3: One-Click Launch (Windows)
-- Double-click **`run_backend.bat`**
-- Double-click **`run_frontend.bat`**
 
 ---
 
